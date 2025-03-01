@@ -26,6 +26,8 @@ class ImageViewerScreen extends StatefulWidget {
 class _ImageViewerScreenState extends State<ImageViewerScreen> {
   bool _isLoading = true;
   List<DetectedObject> detectedObjects = [];
+  String caption = "";
+  // ImageProcessingResult output;
   DetectedObject? lastPressed;
   bool _firstTouch = true;
 
@@ -38,16 +40,21 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
   }
 
   Future<void> _processImage() async {
-    detectedObjects =
+    ImageProcessingResult output =
         await ApiServiceProcessImage.uploadImage(image: widget.picture);
+    // detectedObjects =
+    // await ApiServiceProcessImage.uploadImage(image: widget.picture);
+    detectedObjects = output.results;
+    caption = output.caption;
     stopAudio();
     playCompletedMusic();
     setState(() {
       _isLoading = false;
     });
     // widget.tts.speak("कार्य सम्पन्न भयो");
-    widget.tts.speak(
-        "कार्य सम्पन्न भयो अब विवरण प्राप्त गर्न पर्दामाथि औंला तान्नुहोस्");
+
+    widget.tts.speak(caption);
+    widget.tts.speak("अब विवरण प्राप्त गर्न पर्दामाथि औंला तान्नुहोस्");
   }
 
   void stopAudio() async {

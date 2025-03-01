@@ -5,8 +5,15 @@ import 'package:major_ui/object.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
 
+class ImageProcessingResult {
+  final String caption;
+  final List<DetectedObject> results;
+
+  ImageProcessingResult({required this.caption, required this.results}) {}
+}
+
 class ApiServiceProcessImage {
-  static Future<List<DetectedObject>> uploadImage(
+  static Future<ImageProcessingResult> uploadImage(
       {required XFile image}) async {
     var uri = Uri.parse(
         "https://722fbvpz-8000.inc1.devtunnels.ms/api/process-image/");
@@ -17,9 +24,14 @@ class ApiServiceProcessImage {
     var response = await http.Response.fromStream(await request.send());
     if (response.statusCode == 200) {
       final results = jsonDecode(response.body)['results'];
-      return results
+      final caption = jsonDecode(response.body)['caption'];
+      List<DetectedObject> detectedObjects = results
           .map<DetectedObject>((e) => DetectedObject.fromMap(e))
           .toList();
+      return ImageProcessingResult(caption: caption, results: detectedObjects);
+      // return results
+      //     .map<DetectedObject>((e) => DetectedObject.fromMap(e))
+      //     .toList();
     } else {
       throw Exception("Failed to process image");
     }
