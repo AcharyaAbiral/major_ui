@@ -17,14 +17,19 @@ class ApiServiceProcessImage {
       {required XFile image}) async {
     var uri = Uri.parse(
         "https://722fbvpz-8000.inc1.devtunnels.ms/api/process-image/");
+    // https://722fbvpz-8000.inc1.devtunnels.ms/
     var request = http.MultipartRequest("POST", uri);
     request.files.add(await http.MultipartFile.fromPath('image', image.path,
         filename: p.basename(image.path)));
 
     var response = await http.Response.fromStream(await request.send());
     if (response.statusCode == 200) {
-      final results = jsonDecode(response.body)['results'];
-      final caption = jsonDecode(response.body)['caption'];
+      final decodedBody = utf8.decode(response.bodyBytes);
+      final jsonResponse = jsonDecode(decodedBody);
+      final results = jsonResponse['results'];
+      final caption = jsonResponse['caption'];
+      // final results = jsonDecode(response.body)['results'];
+      // final caption = jsonDecode(response.body)['caption'];
       List<DetectedObject> detectedObjects = results
           .map<DetectedObject>((e) => DetectedObject.fromMap(e))
           .toList();

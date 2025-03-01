@@ -14,7 +14,7 @@ class AppScaffold extends StatefulWidget {
 
 class _AppScaffoldState extends State<AppScaffold> {
   int selectedIndex = 0;
-  final List<IconData> icons = [Icons.home, Icons.settings];
+  final List<IconData> icons = [Icons.home, Icons.person_add_alt_1];
 
   @override
   void initState() {

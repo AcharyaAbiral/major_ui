@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
+      debugShowCheckedModeBanner: false,
       // home: CameraScreen(
       // cameras: cameras,
       // ),

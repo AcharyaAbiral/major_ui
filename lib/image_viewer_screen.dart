@@ -52,9 +52,11 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
       _isLoading = false;
     });
     // widget.tts.speak("कार्य सम्पन्न भयो");
-
+    print("got caption $caption");
+    caption = caption + ".  अब विवरण प्राप्त गर्न पर्दामाथि औंला तान्नुहोस्";
+    // widget.tts.speak(caption+"अब विवरण प्राप्त गर्न पर्दामाथि औंला तान्नुहोस्");
     widget.tts.speak(caption);
-    widget.tts.speak("अब विवरण प्राप्त गर्न पर्दामाथि औंला तान्नुहोस्");
+    // print(caption);
   }
 
   void stopAudio() async {
